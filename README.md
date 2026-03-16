@@ -1,1 +1,235 @@
+# E-commerce Company Dataset <br>
+## Overview
+I took upon myself as a student learning Data Science to generate fake E-commerce dataset for 500 random users and answer the various questions below. I introduced random mistakes in the dataset for data cleaning. This comes with the codes for performing various analysis and images of the results.
+
+## Questions 
+1. What is the total number of unique customers who have made at least one purchase? <br>
+2. Are there any customers whose recorded age is negative or unrealistically high (> 120)? How many? <br>
+3. What proportion of purchases have a PurchaseDate earlier than the RegistrationDate? <br>
+4. Which state has the highest average TotalAmount per completed purchase? <br>
+5. Identify the top 5 customers by total spending (sum of TotalAmount for Completed status only). <br>
+6. How many purchases have mismatched TotalAmount compared to Price × Quantity? <br>
+7. What is the refund rate (percentage of purchases with Status = Refunded)? <br>
+8. Which category has the highest number of cancelled purchases? <br>
+9. Which day of the week shows the highest number of purchases? <br>
+
+## Setting up and Downloading various libraries
+This is where i set up my IDE (Visual Studio code) by downloading all the extentions i will need (Had already installed Visual Studio Code). I then added my codebase to Github repository by using git and always committing changes often. <br><br>
+![alt text](<images/Setting up.png>)
+*Image of setting up my environment*
+
+### Tools used
+* Python
+* Visual studio code
+* Jupyter Notebook
+* Git
+* Github
+
+### Libraries
+* Pandas
+* Matplotlib
+* Seaborn
+* scikit-learn
+
+
+###  Generating Random codes
+
+```Python
+import pandas as pd
+import random
+from datetime import datetime, timedelta
+import numpy as np
+
+# Lists for fake data
+first_names = ['John', 'Jane', 'Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Henry', 'Ivy', 'Jack', 'Katie', 'Leo', 'Mia', 'Noah', 'Olivia', 'Paul', 'Quinn', 'Ryan'] * 25
+last_names = ['Smith', 'Doe', 'Johnson', 'Brown', 'Davis', 'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin', 'Thompson', 'Garcia', 'Martinez', 'Robinson', 'Clark', 'Rodriguez'] * 25
+cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose', 'Austin', 'Jacksonville', 'Fort Worth', 'Columbus', 'Charlotte']
+states = ['NY', 'CA', 'IL', 'TX', 'AZ', 'PA', 'TX', 'CA', 'TX', 'CA', 'TX', 'FL', 'TX', 'OH', 'NC']
+countries = ['USA', 'Canada', 'UK', 'Germany', 'France']
+genders = ['M', 'F', 'Other']
+categories = ['Electronics', 'Clothing', 'Books', 'Home', 'Toys']
+products = {
+    'Electronics': ['Laptop', 'Smartphone', 'Headphones', 'Camera', 'Tablet'],
+    'Clothing': ['Shirt', 'Pants', 'Dress', 'Jacket', 'Shoes'],
+    'Books': ['Novel', 'Biography', 'Sci-Fi', 'Mystery', 'Textbook'],
+    'Home': ['Lamp', 'Chair', 'Table', 'Bed', 'Sofa'],
+    'Toys': ['Doll', 'Toy Car', 'Puzzle', 'Building Blocks', 'Board Game']
+}
+payment_methods = ['Credit Card', 'PayPal', 'Debit Card', 'Cash on Delivery', 'Bank Transfer']
+statuses = ['Completed', 'Pending', 'Cancelled', 'Refunded']
+
+# Generate users
+users = []
+for i in range(1, 501):
+    fn = random.choice(first_names)
+    ln = random.choice(last_names)
+    username = f"{fn.lower()}_{ln.lower()}_{random.randint(1,999)}"
+    email = f"{username}@example.com"
+    address = f"{random.randint(100,9999)} Main St"
+    city = random.choice(cities)
+    state = random.choice(states)
+    zipcode = f"{random.randint(10000,99999)}"
+    country = random.choice(countries)
+    reg_date = datetime(2020, 1, 1) + timedelta(days=random.randint(0, 1460))
+    age = random.randint(18, 80)
+    gender = random.choice(genders)
+    phone = f"({random.randint(100,999)}){random.randint(100,999)}-{random.randint(1000,9999)}"
+    users.append({
+        'UserID': i,
+        'Username': username,
+        'FirstName': fn,
+        'LastName': ln,
+        'Email': email,
+        'Address': address,
+        'City': city,
+        'State': state,
+        'ZipCode': zipcode,
+        'Country': country,
+        'RegistrationDate': reg_date.strftime('%Y-%m-%d'),
+        'Age': age,
+        'Gender': gender,
+        'Phone': phone
+    })
+
+# Generate purchases
+rows = []
+purchase_id = 1
+for user in users:
+    num_purchases = random.randint(0, 10)
+    if num_purchases == 0:
+        row = user.copy()
+        row.update({
+            'PurchaseID': np.nan,
+            'ProductName': np.nan,
+            'Category': np.nan,
+            'Price': np.nan,
+            'Quantity': np.nan,
+            'TotalAmount': np.nan,
+            'PurchaseDate': np.nan,
+            'PaymentMethod': np.nan,
+            'Status': np.nan
+        })
+        rows.append(row)
+    else:
+        for _ in range(num_purchases):
+            cat = random.choice(categories)
+            prod = random.choice(products[cat])
+            price = round(random.uniform(5, 500), 2)
+            qty = random.randint(1, 5)
+            total = round(price * qty, 2)
+            pur_date_dt = datetime.strptime(user['RegistrationDate'], '%Y-%m-%d') + timedelta(days=random.randint(1, 730))
+            pur_date = pur_date_dt.strftime('%Y-%m-%d')
+            pay = random.choice(payment_methods)
+            stat = random.choice(statuses)
+            row = user.copy()
+            row.update({
+                'PurchaseID': purchase_id,
+                'ProductName': prod,
+                'Category': cat,
+                'Price': price,
+                'Quantity': qty,
+                'TotalAmount': total,
+                'PurchaseDate': pur_date,
+                'PaymentMethod': pay,
+                'Status': stat
+            })
+            rows.append(row)
+            purchase_id += 1
+
+# Create DataFrame
+df = pd.DataFrame(rows)
+
+# Introduce mistakes (dirtiness)
+for col in df.columns:
+    if col not in ['UserID']:
+        mask = [random.random() < 0.03 for _ in range(len(df))]
+        df.loc[mask, col] = np.nan
+
+# Typos in names
+for i in range(len(df)):
+    if random.random() < 0.05 and not pd.isna(df.loc[i, 'FirstName']):
+        df.loc[i, 'FirstName'] += random.choice(['x', '!', '123', ' '])
+    if random.random() < 0.05 and not pd.isna(df.loc[i, 'LastName']):
+        df.loc[i, 'LastName'] += 'typo'
+
+# Invalid emails
+for i in range(len(df)):
+    if random.random() < 0.03 and not pd.isna(df.loc[i, 'Email']):
+        if random.random() < 0.5:
+            df.loc[i, 'Email'] = df.loc[i, 'Email'].replace('@', '')
+        else:
+            df.loc[i, 'Email'] = 'invalid_email'
+
+# Negative or unrealistic ages
+for i in range(len(df)):
+    if random.random() < 0.02 and not pd.isna(df.loc[i, 'Age']):
+        if random.random() < 0.5:
+            df.loc[i, 'Age'] = -int(df.loc[i, 'Age'])
+        else:
+            df.loc[i, 'Age'] = random.randint(100, 200)
+
+# Invalid zip codes
+for i in range(len(df)):
+    if random.random() < 0.05 and not pd.isna(df.loc[i, 'ZipCode']):
+        df.loc[i, 'ZipCode'] = str(random.randint(10, 999))
+
+# Purchase dates before registration
+for i in range(len(df)):
+    if random.random() < 0.02 and not pd.isna(df.loc[i, 'PurchaseDate']) and not pd.isna(df.loc[i, 'RegistrationDate']):
+        reg_dt = datetime.strptime(df.loc[i, 'RegistrationDate'], '%Y-%m-%d')
+        pur_dt = reg_dt - timedelta(days=random.randint(1, 365))
+        df.loc[i, 'PurchaseDate'] = pur_dt.strftime('%Y-%m-%d')
+
+# Invalid prices (negative)
+for i in range(len(df)):
+    if random.random() < 0.01 and not pd.isna(df.loc[i, 'Price']):
+        df.loc[i, 'Price'] = -float(df.loc[i, 'Price'])
+
+# Mismatch total amount
+for i in range(len(df)):
+    if random.random() < 0.03 and not pd.isna(df.loc[i, 'Price']) and not pd.isna(df.loc[i, 'Quantity']) and not pd.isna(df.loc[i, 'TotalAmount']):
+        df.loc[i, 'TotalAmount'] = round(float(df.loc[i, 'Price']) * (int(df.loc[i, 'Quantity']) + random.choice([-1, 1, 2])), 2)
+
+# Save as csv file
+df.to_csv('ecommerce_data.xlsx', index=False)
+print("Excel file 'ecommerce_data.xlsx' generated successfully!")
+```
+
+## Data Cleaning
+In this section, i imported my data as a dataframe from my .csv file. I then cleaned the data by replacing null values in the Quantity column with zero (0). I also converted the PurchaseDate from String to DateTime.
+```Python
+import pandas as pd
+import matplotlib as plt
+import seaborn as sns
+
+ecom = pd.read_csv('files/ecommerce_data.csv')
+
+ecom['Quantity'] = ecom['Quantity'].fillna(0)
+ecom['PurchaseID'] = ecom['PurchaseID'].fillna(0)
+ecom['PurchaseDate'] = pd.to_datetime(ecom['PurchaseDate'])
+
+ecom
+```
+
+
+## The Analysis of the dataset using the questions
+Each Jupiter notebook in this project is aimed to answer a specific question in the questions listed at the top.
+### 1. What is the total number of unique customers who have made at least one purchase?
+To find the total number of unique customers who ave made at least one purchase, after the data cleaning, i used the python concatenate ideology to join names to avoid duplicates in the unique users. I then use a for loop to iterate through the user purchase id to get the users who have made at least one purchase. I then used the unique method snd size method to get the final result.
+
+View my detailed code snippets here: [unique_customers](files/ecommerce_data.csv)
+```Python
+
+for id in ecom['PurchaseID']:
+    if id > 0:
+        unique_cust_sum = ecom['FullName'].unique().size
+
+
+print("Total number of total unique customers: ", unique_cust_sum)
+
+```
+
+![Total number of unique customers](<images/Total Unique Customers.png>)
+
+After running the code snippet, i got the total number to be 472 as shown in the image.
 
