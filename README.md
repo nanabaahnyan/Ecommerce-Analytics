@@ -4,7 +4,7 @@ I took upon myself as a student learning Data Science to generate fake E-commerc
 
 ## Questions 
 1. What is the total number of unique customers who have made at least one purchase? <br>
-2. Are there any customers whose recorded age is negative or unrealistically high (> 120)? How many? <br>
+2. Are there any customers whose recorded age is negative or unrealistically high (> 100)? How many? <br>
 3. What proportion of purchases have a PurchaseDate earlier than the RegistrationDate? <br>
 4. Which state has the highest average TotalAmount per completed purchase? <br>
 5. Identify the top 5 customers by total spending (sum of TotalAmount for Completed status only). <br>
@@ -218,18 +218,13 @@ Each Jupiter notebook in this project is aimed to answer a specific question in 
 To find the total number of unique customers who ave made at least one purchase, after the data cleaning, i used the python concatenate ideology to join names to avoid duplicates in the unique users. I then use a for loop to iterate through the user purchase id to get the users who have made at least one purchase. I then used the unique method snd size method to get the final result.
 
 View my detailed code snippets here: [unique_customers](files/ecommerce_data.csv)
-```Python
 
-for id in ecom['PurchaseID']:
-    if id > 0:
-        unique_cust_sum = ecom['FullName'].unique().size
+![Total number of unique customers](<images/Total Unique Customers.png>) 
+*I got the total number to be 472 as shown in the image.*
 
-
-print("Total number of total unique customers: ", unique_cust_sum)
-
-```
-
-![Total number of unique customers](<images/Total Unique Customers.png>)
-
-After running the code snippet, i got the total number to be 472 as shown in the image.
-
+### 2. Are there any customers whose recorded age is negative or unrealistically high (> 100)? How many?
+To tackle this question, i had to do a little data cleaning of filling NaN values in column "Age" with zeros (0s), convert the age from float to int, and then drop the duplicates since it will be unrealistic to have the size exceeding the actual total number. I then created a variable called "abnormal_ages" to hold the result of users whose age is negative or above 100 years.
+ 
+View my detailed code snippets here: [Unrealistic age in dataset](unrealistic_age.ipynb)
+![alt text](images/unrealistic_age.png)
+*I got the total number of unrealistic age to be 6 as shown in the image.*
