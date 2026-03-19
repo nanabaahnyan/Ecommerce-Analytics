@@ -228,3 +228,17 @@ To tackle this question, i had to do a little data cleaning of filling NaN value
 View my detailed code snippets here: [Unrealistic age in dataset](unrealistic_age.ipynb)
 ![alt text](images/unrealistic_age.png)
 *I got the total number of unrealistic age to be 6 as shown in the image.*
+
+### 3. What proportion of purchases have a PurchaseDate earlier than the RegistrationDate?
+Once again, i was presented with a good analytical question to answer, I had to first of all loop through the two dates columns using my favorite loop (for loop), I then check to see all the PurchaseDate that is earlier than the Registration date by using an if statement. You can also see i have a count variable there, yes, to help my get the total number, and then converted the proportion into a percentage to two floating point numbers.
+
+View my detailed code snippets here: [Proportion of PurchaseDate over RegistrationDate](proportion_of_purchase_date.ipynb)
+![alt text](<images/Proportion of Dates.png>)
+*The propostion of customers who made a purchase before registering is 1.27%*
+
+### 4. Which state has the highest average TotalAmount per completed purchase? 
+### 5. Identify the top 5 customers by total spending (sum of TotalAmount for Completed status only). 
+### 6. How many purchases have mismatched TotalAmount compared to Price × Quantity? 
+### 7. What is the refund rate (percentage of purchases with Status = Refunded)? 
+### 8. Which category has the highest number of cancelled purchases? <br>
+### 9. Which day of the week shows the highest number of purchases? <br>
