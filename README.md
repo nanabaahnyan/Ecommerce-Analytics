@@ -237,8 +237,28 @@ View my detailed code snippets here: [Proportion of PurchaseDate over Registrati
 *The propostion of customers who made a purchase before registering is 1.27%*
 
 ### 4. Which state has the highest average TotalAmount per completed purchase? 
+To find the state with the highest average TotalAmount per completed purchase, i had o first of all group my dataset by State and TotalAmount and perform mean on the TotalAmount. I then had to sort the list in descending order and use the idxmax() function to get the index of the state with average TotalAmount and the max() function to get the highest state with the average TotalAmount.
+
+View my detailed code snippets here: [State with Highest Total Amount Average](total_highest_avg/total_highest_avg.ipynb)
+![State with highest total amount](<images/State with Highest TotalAmount average.png>)
+*The state with the highest Total Amount average is IL (Illinois) with total amount of $863.17*
 ### 5. Identify the top 5 customers by total spending (sum of TotalAmount for Completed status only). 
+To get the top 5 customers by total spending, I used for loop to loop through the dataset's Status, used if statement to check if the status correspond to completed, and used sum to get the sum of total amount for each state.
+
+View my detailed code snippets here: [Top 5 customers by spending](Top_5_by_total_spending/top5_by_spending.ipynb)
+
+![Top 5 customers by spending](<images/Visualization (Top 5 customers by spending).png>)
+*This visual representation shows the top 5 customers by spending*
+
 ### 6. How many purchases have mismatched TotalAmount compared to Price × Quantity? 
-### 7. What is the refund rate (percentage of purchases with Status = Refunded)? 
-### 8. Which category has the highest number of cancelled purchases? <br>
-### 9. Which day of the week shows the highest number of purchases? <br>
+Mismatched total amount was found by multiplying price by quantity to get the expected total amount, i then got the AmountMismatched by finding if the TotalAmount is the same as the ExpectedAmount.
+
+View my detailed code snippets here: [Mismatched total amount](mismatched_totalAmount/mismatched_TotalAmount.ipynb)
+
+![Mismatched total amount code result](<images/Mis-Matched total amount.png>)
+
+## Insights
+After performing analysis on this ecommerce dataset, i got to interact with newer functions that has broadened my horizons. I got to appreciate how well data can be manipulated to bring about information that will aid organizations and businesses to make decisions.
+
+*Note* <br>
+Ways i used to solve these dataset questions can be different yet get the same result. All tools and materials that were not cited and acknowledged is indirectly acknowledged and will be added when it comes to mind.
