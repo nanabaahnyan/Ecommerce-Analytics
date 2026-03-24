@@ -207,6 +207,7 @@ ecom = pd.read_csv('files/ecommerce_data.csv')
 ecom['Quantity'] = ecom['Quantity'].fillna(0)
 ecom['PurchaseID'] = ecom['PurchaseID'].fillna(0)
 ecom['PurchaseDate'] = pd.to_datetime(ecom['PurchaseDate'])
+ecom["RegistrationDate"]= pd.to_datetime(ecom["RegistrationDate"],errors="coerce")
 
 ecom
 ```
