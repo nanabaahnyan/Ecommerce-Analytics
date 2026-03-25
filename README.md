@@ -263,3 +263,6 @@ After performing analysis on this ecommerce dataset, i got to interact with newe
 
 *Note* <br>
 Ways i used to solve these dataset questions can be different yet get the same result. All tools and materials that were not cited and acknowledged is indirectly acknowledged and will be added when it comes to mind.
+
+Thanks to **Luke Barousse** for the massive and inspiring tutorial and also thanks to the Python theme for massive libraries. <br>
+Check him out on YouTube *https://www.youtube.com/@LukeBarousse*
